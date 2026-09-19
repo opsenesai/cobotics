@@ -15,7 +15,7 @@ function AppHeader({ className, ...props }: AppHeaderProps) {
     >
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center px-4 sm:px-6">
         <Link href="/" className="flex items-center font-semibold">
-          <span className="text-base tracking-tight">cobotics</span>
+          <span className="text-base tracking-tight text-primary">cobotics</span>
         </Link>
       </div>
     </header>

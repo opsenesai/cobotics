@@ -63,7 +63,9 @@ function ConsoleSidebar({
       {...props}
     >
       <div className="flex h-14 items-center border-b border-sidebar-border px-4">
-        <span className="text-base font-semibold tracking-tight">cobotics</span>
+        <span className="text-base font-semibold tracking-tight text-primary">
+          cobotics
+        </span>
       </div>
 
       <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-2">
