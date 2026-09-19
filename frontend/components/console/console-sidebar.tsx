@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
@@ -62,8 +63,16 @@ function ConsoleSidebar({
       )}
       {...props}
     >
-      <div className="flex h-14 items-center border-b border-sidebar-border px-4">
-        <span className="text-base font-semibold tracking-tight text-primary">
+      <div className="flex h-14 items-center gap-1.5 border-b border-sidebar-border px-4">
+        <Image
+          src="/icons/app/dark.png"
+          alt="Cobotics"
+          width={24}
+          height={24}
+          className="size-6 object-contain"
+          priority
+        />
+        <span className="text-xl font-semibold tracking-tight text-primary">
           cobotics
         </span>
       </div>
