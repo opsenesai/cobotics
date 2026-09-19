@@ -98,6 +98,15 @@
   html {
     @apply font-sans;
   }
+
+  /* Hide the scrollbar while keeping scrolling functional. */
+  html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and legacy Edge */
+  }
+  html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and other WebKit/Blink browsers */
+  }
 }
 
 @layer base {

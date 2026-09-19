@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import {
   Field,
   FieldGroup,
@@ -88,10 +88,9 @@ function ResetPasswordForm() {
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="password">New password</FieldLabel>
-              <Input
+              <PasswordInput
                 id="password"
                 name="password"
-                type="password"
                 autoComplete="new-password"
                 required
               />
@@ -100,10 +99,9 @@ function ResetPasswordForm() {
 
             <Field>
               <FieldLabel htmlFor="confirm">Confirm password</FieldLabel>
-              <Input
+              <PasswordInput
                 id="confirm"
                 name="confirm"
-                type="password"
                 autoComplete="new-password"
                 required
               />

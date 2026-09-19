@@ -17,7 +17,6 @@ import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-  InputOTPSeparator,
 } from "@/components/ui/input-otp"
 import { Field, FieldGroup, FieldError } from "@/components/ui/field"
 
@@ -110,17 +109,16 @@ function VerifyForm() {
                 value={code}
                 onChange={setCode}
                 aria-label="Verification code"
+                containerClassName="justify-center"
               >
-                <InputOTPGroup>
-                  <InputOTPSlot index={0} />
-                  <InputOTPSlot index={1} />
-                  <InputOTPSlot index={2} />
-                </InputOTPGroup>
-                <InputOTPSeparator />
-                <InputOTPGroup>
-                  <InputOTPSlot index={3} />
-                  <InputOTPSlot index={4} />
-                  <InputOTPSlot index={5} />
+                <InputOTPGroup className="gap-2">
+                  {Array.from({ length: OTP_LENGTH }).map((_, index) => (
+                    <InputOTPSlot
+                      key={index}
+                      index={index}
+                      className="size-10 rounded-lg border"
+                    />
+                  ))}
                 </InputOTPGroup>
               </InputOTP>
             </Field>

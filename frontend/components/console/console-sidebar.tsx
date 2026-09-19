@@ -30,11 +30,17 @@ const defaultNavItems: ConsoleNavItem[] = [
 
 export interface ConsoleSidebarProps extends React.ComponentProps<"aside"> {
   items?: ConsoleNavItem[]
+  /** Whether the mobile drawer is open. Ignored on lg+ where the sidebar is static. */
+  open?: boolean
+  /** Called when a nav item is clicked, so the parent can close the mobile drawer. */
+  onNavigate?: () => void
 }
 
 function ConsoleSidebar({
   className,
   items = defaultNavItems,
+  open = false,
+  onNavigate,
   ...props
 }: ConsoleSidebarProps) {
   const pathname = usePathname()
@@ -42,8 +48,14 @@ function ConsoleSidebar({
   return (
     <aside
       data-slot="console-sidebar"
+      data-open={open}
       className={cn(
+        // Base
         "flex h-full w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground",
+        // Mobile / tablet: fixed off-canvas drawer that slides in when open
+        "fixed inset-y-0 left-0 z-50 -translate-x-full transition-transform duration-200 ease-in-out data-[open=true]:translate-x-0",
+        // Desktop: static, always visible, no transform
+        "lg:static lg:z-auto lg:translate-x-0",
         className
       )}
       {...props}
@@ -63,6 +75,7 @@ function ConsoleSidebar({
               key={item.href}
               href={item.href}
               data-active={isActive}
+              onClick={onNavigate}
               className={cn(
                 "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                 "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",

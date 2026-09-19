@@ -15,14 +15,23 @@ function AppFooter({ className, ...props }: AppFooterProps) {
           &copy; {new Date().getFullYear()} Cobotics. All rights reserved.
         </p>
         <nav className="flex items-center gap-4 text-sm text-muted-foreground">
-          <Link href="/" className="transition-colors hover:text-foreground">
+          <Link
+            href="/legal/privacy"
+            className="transition-colors hover:text-foreground"
+          >
             Privacy
           </Link>
-          <Link href="/" className="transition-colors hover:text-foreground">
+          <Link
+            href="/legal/terms"
+            className="transition-colors hover:text-foreground"
+          >
             Terms
           </Link>
-          <Link href="/" className="transition-colors hover:text-foreground">
-            Contact
+          <Link
+            href="/legal/cookies"
+            className="transition-colors hover:text-foreground"
+          >
+            Cookies
           </Link>
         </nav>
       </div>

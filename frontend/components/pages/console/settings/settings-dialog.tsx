@@ -44,8 +44,8 @@ function SettingsDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       {trigger && <DialogTrigger render={trigger as React.ReactElement} />}
       <DialogContent className="max-w-2xl gap-0 overflow-hidden p-0 sm:max-w-2xl">
-        <div className="grid min-h-[24rem] grid-cols-[180px_1fr]">
-          <aside className="border-r border-border bg-muted/30 p-3">
+        <div className="grid min-h-[24rem] grid-cols-1 sm:grid-cols-[180px_1fr]">
+          <aside className="border-b border-border bg-muted/30 p-3 sm:border-b-0 sm:border-r">
             <p className="px-3 pb-2 pt-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               Settings
             </p>
@@ -53,10 +53,11 @@ function SettingsDialog({
               sections={sections}
               value={active}
               onSelect={setActive}
+              className="flex-row overflow-x-auto sm:flex-col sm:overflow-visible"
             />
           </aside>
 
-          <section className="flex flex-col p-6">
+          <section className="flex flex-col p-4 sm:p-6">
             <DialogHeader>
               <DialogTitle>{activeSection?.title}</DialogTitle>
               <DialogDescription>

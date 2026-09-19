@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { AppFooter } from "@/components/app"
+import { AppHeader, AppFooter } from "@/components/app"
 
 export default function AuthLayout({
   children,
@@ -8,13 +8,14 @@ export default function AuthLayout({
 }) {
   return (
     <div className="flex min-h-svh flex-col bg-muted/40">
+      <AppHeader />
+
       <div className="flex flex-1 flex-col items-center justify-center px-4 py-12">
         <Link
           href="/"
-          className="mb-8 flex items-center gap-2 font-semibold"
+          className="mb-8 flex items-center font-semibold"
         >
-          <span className="inline-block size-7 rounded-md bg-primary" />
-          <span className="text-lg tracking-tight">Cobotics</span>
+          <span className="text-lg tracking-tight">cobotics</span>
         </Link>
 
         <div className="w-full max-w-sm">{children}</div>

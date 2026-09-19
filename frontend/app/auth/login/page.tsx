@@ -13,7 +13,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import {
   Field,
   FieldGroup,
@@ -33,6 +35,7 @@ export default function LoginPage() {
     const formData = new FormData(event.currentTarget)
     const email = String(formData.get("email") ?? "").trim()
     const password = String(formData.get("password") ?? "")
+    const remember = formData.get("remember") != null
 
     if (!email || !password) {
       setError("Enter your email and password to continue.")
@@ -44,7 +47,7 @@ export default function LoginPage() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, remember }),
       })
 
       if (!res.ok) {
@@ -94,13 +97,19 @@ export default function LoginPage() {
                   Forgot password?
                 </Link>
               </div>
-              <Input
+              <PasswordInput
                 id="password"
                 name="password"
-                type="password"
                 autoComplete="current-password"
                 required
               />
+            </Field>
+
+            <Field orientation="horizontal">
+              <Checkbox id="remember" name="remember" />
+              <FieldLabel htmlFor="remember" className="font-normal">
+                Remember me
+              </FieldLabel>
             </Field>
 
             {error && <FieldError>{error}</FieldError>}
