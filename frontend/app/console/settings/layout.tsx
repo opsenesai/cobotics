@@ -1,58 +1,27 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { cn } from "cn"
+import { useEffect } from "react"
+import { usePathname, useRouter } from "next/navigation"
 
-const settingsLinks = [
-  { title: "Profile", href: "/console/settings/profile" },
-  { title: "Usage", href: "/console/settings/usage" },
-  { title: "Personalization", href: "/console/settings/personalization" },
-  { title: "Skills", href: "/console/settings/skills" },
-  { title: "Memory", href: "/console/settings/memory" },
-]
-
+/**
+ * The settings UI is a hash-driven dialog rendered by the console layout
+ * (e.g. `/console/overview#settings/profile`). Any direct visit to a
+ * `/console/settings/*` route is redirected to the overview page with the
+ * matching settings hash so the dialog opens over the console.
+ */
 export default function SettingsLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const router = useRouter()
   const pathname = usePathname()
 
-  return (
-    <div className="mx-auto w-full max-w-5xl">
-      <header className="mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Manage your account, preferences, and workspace.
-        </p>
-      </header>
+  useEffect(() => {
+    const segment = pathname.replace(/^\/console\/settings\/?/, "")
+    const section = segment || "profile"
+    router.replace(`/console/overview#settings/${section}`)
+  }, [pathname, router])
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[200px_1fr]">
-        <aside className="lg:sticky lg:top-6 lg:self-start">
-          <nav className="flex flex-col gap-1">
-            {settingsLinks.map((link) => {
-              const isActive = pathname === link.href
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  data-active={isActive}
-                  className={cn(
-                    "rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors",
-                    "hover:bg-muted hover:text-foreground",
-                    "data-[active=true]:bg-muted data-[active=true]:text-foreground"
-                  )}
-                >
-                  {link.title}
-                </Link>
-              )
-            })}
-          </nav>
-        </aside>
-
-        <section>{children}</section>
-      </div>
-    </div>
-  )
+  return children
 }

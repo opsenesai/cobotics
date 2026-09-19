@@ -1,9 +1,7 @@
-import type { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: "Memory | Settings",
-}
-
 export default function MemoryPage() {
-  return <h2 className="text-xl font-semibold tracking-tight">Memory</h2>
+  return (
+    <p className="text-sm text-muted-foreground">
+      Memory settings will appear here.
+    </p>
+  )
 }

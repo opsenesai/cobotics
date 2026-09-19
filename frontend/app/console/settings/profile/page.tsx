@@ -1,9 +1,7 @@
-import type { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: "Profile | Settings",
-}
-
 export default function ProfilePage() {
-  return <h2 className="text-xl font-semibold tracking-tight">Profile</h2>
+  return (
+    <p className="text-sm text-muted-foreground">
+      Your profile details will appear here.
+    </p>
+  )
 }

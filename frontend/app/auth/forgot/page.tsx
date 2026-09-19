@@ -75,6 +75,7 @@ export default function ForgotPasswordPage() {
         <CardContent>
           <Button
             variant="outline"
+            nativeButton={false}
             className="w-full"
             render={<Link href="/auth/login" />}
           >

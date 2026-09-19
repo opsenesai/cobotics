@@ -1,9 +1,7 @@
-import type { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: "Skills | Settings",
-}
-
 export default function SkillsPage() {
-  return <h2 className="text-xl font-semibold tracking-tight">Skills</h2>
+  return (
+    <p className="text-sm text-muted-foreground">
+      Skills will appear here.
+    </p>
+  )
 }

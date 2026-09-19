@@ -5,13 +5,15 @@ import { usePathname } from "next/navigation"
 import {
   LayoutDashboard,
   Plus,
-  Clock,
+  MessageSquare,
   Library,
   Puzzle,
   Settings,
   type LucideIcon,
 } from "lucide-react"
 import { cn } from "cn"
+import { Button } from "@/components/ui/button"
+import { ProfileBar } from "@/components/shared/console/profile-bar"
 
 export interface ConsoleNavItem {
   title: string
@@ -21,11 +23,11 @@ export interface ConsoleNavItem {
 
 const defaultNavItems: ConsoleNavItem[] = [
   { title: "Overview", href: "/console/overview", icon: LayoutDashboard },
-  { title: "New", href: "/console/new", icon: Plus },
-  { title: "Recents", href: "/console/recents", icon: Clock },
+  { title: "Chats", href: "/console/recents", icon: MessageSquare },
   { title: "Library", href: "/console/library", icon: Library },
   { title: "Plugins", href: "/console/plugins", icon: Puzzle },
-  { title: "Settings", href: "/console/settings", icon: Settings },
+  // Hash link: opens the settings dialog over the current console page.
+  { title: "Settings", href: "#settings/profile", icon: Settings },
 ]
 
 export interface ConsoleSidebarProps extends React.ComponentProps<"aside"> {
@@ -60,34 +62,70 @@ function ConsoleSidebar({
       )}
       {...props}
     >
-      <div className="flex h-14 items-center gap-2 border-b border-sidebar-border px-4">
-        <span className="inline-block size-6 rounded-md bg-sidebar-primary" />
-        <span className="text-sm font-semibold tracking-tight">Console</span>
+      <div className="flex h-14 items-center border-b border-sidebar-border px-4">
+        <span className="text-base font-semibold tracking-tight">cobotics</span>
       </div>
 
-      <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-2">
+      <div className="p-2">
+        <Button
+          nativeButton={false}
+          className="w-full justify-start gap-2.5"
+          render={<Link href="/console/new" onClick={onNavigate} />}
+        >
+          <Plus className="size-4 shrink-0" />
+          New chat
+        </Button>
+      </div>
+
+      <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-2 pb-2">
         {items.map((item) => {
+          const isHash = item.href.startsWith("#")
           const isActive =
-            pathname === item.href || pathname.startsWith(`${item.href}/`)
+            !isHash &&
+            (pathname === item.href || pathname.startsWith(`${item.href}/`))
           const Icon = item.icon
+          const itemClassName = cn(
+            "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+            "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+            "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground"
+          )
+          const content = (
+            <>
+              <Icon className="size-4 shrink-0" />
+              {item.title}
+            </>
+          )
+
+          // Hash items (e.g. settings) use a plain anchor so they update the
+          // URL hash and open the dialog without navigating away.
+          if (isHash) {
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={onNavigate}
+                className={itemClassName}
+              >
+                {content}
+              </a>
+            )
+          }
+
           return (
             <Link
               key={item.href}
               href={item.href}
               data-active={isActive}
               onClick={onNavigate}
-              className={cn(
-                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground"
-              )}
+              className={itemClassName}
             >
-              <Icon className="size-4 shrink-0" />
-              {item.title}
+              {content}
             </Link>
           )
         })}
       </nav>
+
+      <ProfileBar onNavigate={onNavigate} />
     </aside>
   )
 }
