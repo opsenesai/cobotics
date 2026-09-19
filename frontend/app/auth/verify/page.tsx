@@ -1,0 +1,179 @@
+"use client"
+
+import { Suspense, useState } from "react"
+import Link from "next/link"
+import { useRouter, useSearchParams } from "next/navigation"
+import { Loader2 } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  InputOTPSeparator,
+} from "@/components/ui/input-otp"
+import { Field, FieldGroup, FieldError } from "@/components/ui/field"
+
+const OTP_LENGTH = 6
+
+function VerifyForm() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const email = searchParams.get("email")
+
+  const [code, setCode] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isResending, setIsResending] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [notice, setNotice] = useState<string | null>(null)
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setError(null)
+    setNotice(null)
+
+    if (code.length !== OTP_LENGTH) {
+      setError(`Enter the ${OTP_LENGTH}-digit code from your email.`)
+      return
+    }
+
+    setIsSubmitting(true)
+    try {
+      const res = await fetch("/api/auth/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, code }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null)
+        setError(data?.message ?? "That code is incorrect or has expired.")
+        return
+      }
+
+      router.push("/console")
+    } catch {
+      setError("Something went wrong. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  async function handleResend() {
+    setError(null)
+    setNotice(null)
+    setIsResending(true)
+    try {
+      const res = await fetch("/api/auth/verify/resend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null)
+        setError(data?.message ?? "Could not resend the code.")
+        return
+      }
+
+      setNotice("A new code is on its way.")
+    } catch {
+      setError("Something went wrong. Please try again.")
+    } finally {
+      setIsResending(false)
+    }
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Verify your email</CardTitle>
+        <CardDescription>
+          {email
+            ? `We sent a ${OTP_LENGTH}-digit code to ${email}.`
+            : `Enter the ${OTP_LENGTH}-digit code we sent to your email.`}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} noValidate>
+          <FieldGroup>
+            <Field className="items-center">
+              <InputOTP
+                maxLength={OTP_LENGTH}
+                value={code}
+                onChange={setCode}
+                aria-label="Verification code"
+              >
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                </InputOTPGroup>
+                <InputOTPSeparator />
+                <InputOTPGroup>
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
+            </Field>
+
+            {error && <FieldError>{error}</FieldError>}
+            {notice && (
+              <p className="text-sm font-normal text-muted-foreground">
+                {notice}
+              </p>
+            )}
+
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting && <Loader2 className="animate-spin" />}
+              Verify
+            </Button>
+
+            <Button
+              type="button"
+              variant="ghost"
+              className="w-full"
+              onClick={handleResend}
+              disabled={isResending}
+            >
+              {isResending && <Loader2 className="animate-spin" />}
+              Resend code
+            </Button>
+          </FieldGroup>
+        </form>
+      </CardContent>
+      <div className="px-6 text-center text-sm text-muted-foreground">
+        <Link
+          href="/auth/login"
+          className="font-medium text-primary hover:underline"
+        >
+          Back to sign in
+        </Link>
+      </div>
+    </Card>
+  )
+}
+
+export default function VerifyPage() {
+  return (
+    <Suspense
+      fallback={
+        <Card>
+          <CardContent className="flex items-center justify-center py-10">
+            <Loader2 className="size-5 animate-spin text-muted-foreground" />
+          </CardContent>
+        </Card>
+      }
+    >
+      <VerifyForm />
+    </Suspense>
+  )
+}
