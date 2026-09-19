@@ -12,7 +12,6 @@ import {
   type LucideIcon,
 } from "lucide-react"
 import { cn } from "cn"
-import { Button } from "@/components/ui/button"
 import { ProfileBar } from "@/components/shared/console/profile-bar"
 
 export interface ConsoleNavItem {
@@ -22,6 +21,7 @@ export interface ConsoleNavItem {
 }
 
 const defaultNavItems: ConsoleNavItem[] = [
+  { title: "New chat", href: "/console/new", icon: Plus },
   { title: "Overview", href: "/console/overview", icon: LayoutDashboard },
   { title: "Chats", href: "/console/recents", icon: MessageSquare },
   { title: "Library", href: "/console/library", icon: Library },
@@ -66,18 +66,7 @@ function ConsoleSidebar({
         <span className="text-base font-semibold tracking-tight">cobotics</span>
       </div>
 
-      <div className="p-2">
-        <Button
-          nativeButton={false}
-          className="w-full justify-start gap-2.5"
-          render={<Link href="/console/new" onClick={onNavigate} />}
-        >
-          <Plus className="size-4 shrink-0" />
-          New chat
-        </Button>
-      </div>
-
-      <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-2 pb-2">
+      <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-2">
         {items.map((item) => {
           const isHash = item.href.startsWith("#")
           const isActive =
