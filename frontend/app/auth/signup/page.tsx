@@ -39,6 +39,7 @@ function SignupForm() {
     const name = String(formData.get("name") ?? "").trim()
     const email = String(formData.get("email") ?? "").trim()
     const password = String(formData.get("password") ?? "")
+    const confirm = String(formData.get("confirm") ?? "")
 
     if (!name || !email || !password) {
       setError("Fill in all fields to create your account.")
@@ -47,6 +48,11 @@ function SignupForm() {
 
     if (password.length < 8) {
       setError("Password must be at least 8 characters long.")
+      return
+    }
+
+    if (password !== confirm) {
+      setError("Passwords do not match.")
       return
     }
 
@@ -93,6 +99,7 @@ function SignupForm() {
                 type="text"
                 autoComplete="name"
                 placeholder="Jane Doe"
+                className="h-10"
                 required
               />
             </Field>
@@ -106,6 +113,7 @@ function SignupForm() {
                 autoComplete="email"
                 placeholder="you@example.com"
                 defaultValue={prefilledEmail}
+                className="h-10"
                 required
               />
             </Field>
@@ -116,11 +124,20 @@ function SignupForm() {
                 id="password"
                 name="password"
                 autoComplete="new-password"
+                className="h-10"
                 required
               />
-              <FieldDescription>
-                Use at least 8 characters.
-              </FieldDescription>
+            </Field>
+
+            <Field>
+              <FieldLabel htmlFor="confirm">Confirm password</FieldLabel>
+              <PasswordInput
+                id="confirm"
+                name="confirm"
+                autoComplete="new-password"
+                className="h-10"
+                required
+              />
             </Field>
 
             {error && <FieldError>{error}</FieldError>}

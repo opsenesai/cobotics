@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Cobotics",
   description: "Cobotics console",
   icons: {
-    icon: "/icons/app/favicon.png",
+    icon: "/icons/app/favicon.svg",
   },
 };
 

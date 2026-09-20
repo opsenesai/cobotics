@@ -15,16 +15,15 @@ function AppHeader({ className, ...props }: AppHeaderProps) {
       {...props}
     >
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-1.5 font-semibold">
+        <Link href="/" className="flex items-center">
           <Image
-            src="/icons/app/dark.png"
+            src="/icons/app/wordmark/dark.svg"
             alt="Cobotics"
-            width={24}
-            height={24}
-            className="size-6 object-contain"
+            width={360}
+            height={72}
+            className="h-[72px] w-auto object-contain"
             priority
           />
-          <span className="text-xl tracking-tight text-primary">cobotics</span>
         </Link>
       </div>
     </header>

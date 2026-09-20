@@ -63,18 +63,15 @@ function ConsoleSidebar({
       )}
       {...props}
     >
-      <div className="flex h-14 items-center gap-1.5 border-b border-sidebar-border px-4">
+      <div className="flex h-14 items-center border-b border-sidebar-border px-4">
         <Image
-          src="/icons/app/dark.png"
+          src="/icons/app/wordmark/dark.svg"
           alt="Cobotics"
-          width={24}
-          height={24}
-          className="size-6 object-contain"
+          width={180}
+          height={36}
+          className="h-9 w-auto object-contain"
           priority
         />
-        <span className="text-xl font-semibold tracking-tight text-primary">
-          cobotics
-        </span>
       </div>
 
       <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-2">

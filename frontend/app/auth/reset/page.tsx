@@ -85,6 +85,7 @@ function ResetPasswordForm() {
                 id="password"
                 name="password"
                 autoComplete="new-password"
+                className="h-10"
                 required
               />
               <FieldDescription>Use at least 8 characters.</FieldDescription>
@@ -96,6 +97,7 @@ function ResetPasswordForm() {
                 id="confirm"
                 name="confirm"
                 autoComplete="new-password"
+                className="h-10"
                 required
               />
             </Field>

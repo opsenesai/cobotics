@@ -110,6 +110,7 @@ export default function ForgotPasswordPage() {
                 type="email"
                 autoComplete="email"
                 placeholder="you@example.com"
+                className="h-10"
                 required
               />
             </Field>

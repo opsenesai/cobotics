@@ -105,6 +105,7 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 placeholder="you@example.com"
+                className="h-10"
                 required
               />
             </Field>
@@ -123,6 +124,7 @@ export default function LoginPage() {
                 id="password"
                 name="password"
                 autoComplete="current-password"
+                className="h-10"
                 required
               />
             </Field>
