@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   User,
@@ -13,7 +13,12 @@ import {
 } from "lucide-react"
 
 import { cn } from "cn"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { createClient } from "@/lib/supabase/client"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
 import {
   Popover,
   PopoverContent,
@@ -33,18 +38,59 @@ const menuItemClass = cn(
   "hover:bg-muted focus-visible:bg-muted outline-none"
 )
 
+// First letter of first + last name; for a single name, the first two letters.
+function initials(name: string): string {
+  const source = name.trim()
+  if (!source) return ""
+  const parts = source.split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+  }
+  return source.slice(0, 2).toUpperCase()
+}
+
 function ProfileBar({ className, onNavigate, ...props }: ProfileBarProps) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
+  const [displayName, setDisplayName] = useState("Profile")
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+
+  useEffect(() => {
+    let active = true
+    async function load() {
+      const supabase = createClient()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data: row } = await supabase
+        .from("users")
+        .select("username, full_name, avatar_url")
+        .eq("user_id", user.id)
+        .single()
+
+      if (!active) return
+      setDisplayName(row?.full_name || row?.username || user.email || "Profile")
+      setAvatarUrl(row?.avatar_url ?? null)
+    }
+    load()
+    return () => {
+      active = false
+    }
+  }, [])
 
   function close() {
     setOpen(false)
     onNavigate?.()
   }
 
-  function handleLogout() {
+  async function handleLogout() {
     close()
+    const supabase = createClient()
+    await supabase.auth.signOut()
     router.push("/auth/login")
+    router.refresh()
   }
 
   return (
@@ -62,11 +108,14 @@ function ProfileBar({ className, onNavigate, ...props }: ProfileBarProps) {
           )}
         >
           <Avatar size="sm">
+            {avatarUrl ? (
+              <AvatarImage src={avatarUrl} alt={displayName} />
+            ) : null}
             <AvatarFallback>
-              <User className="size-3.5" />
+              {initials(displayName) || <User className="size-3.5" />}
             </AvatarFallback>
           </Avatar>
-          <span className="flex-1 text-left">Profile</span>
+          <span className="flex-1 truncate text-left">{displayName}</span>
           <ChevronUp className="size-4 shrink-0 text-muted-foreground" />
         </PopoverTrigger>
 
