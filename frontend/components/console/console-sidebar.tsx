@@ -67,9 +67,9 @@ function ConsoleSidebar({
         <Image
           src="/icons/app/wordmark/dark.svg"
           alt="Cobotics"
-          width={180}
-          height={36}
-          className="h-9 w-auto object-contain"
+          width={360}
+          height={72}
+          className="h-[72px] w-auto object-contain"
           priority
         />
       </div>
