@@ -9,7 +9,6 @@ import {
   MessageSquare,
   Library,
   Puzzle,
-  Settings,
   type LucideIcon,
 } from "lucide-react"
 import { cn } from "cn"
@@ -27,8 +26,6 @@ const defaultNavItems: ConsoleNavItem[] = [
   { title: "Chats", href: "/console/recents", icon: MessageSquare },
   { title: "Library", href: "/console/library", icon: Library },
   { title: "Plugins", href: "/console/plugins", icon: Puzzle },
-  // Hash link: opens the settings dialog over the current console page.
-  { title: "Settings", href: "#settings/usage", icon: Settings },
 ]
 
 export interface ConsoleSidebarProps extends React.ComponentProps<"aside"> {
@@ -84,7 +81,7 @@ function ConsoleSidebar({
           const itemClassName = cn(
             "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
             "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-            "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground"
+            "data-[active=true]:bg-primary data-[active=true]:text-primary-foreground data-[active=true]:hover:bg-primary data-[active=true]:hover:text-primary-foreground"
           )
           const content = (
             <>

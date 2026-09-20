@@ -2,7 +2,15 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { User, Palette, LogOut, ChevronsUpDown } from "lucide-react"
+import {
+  User,
+  Palette,
+  Settings,
+  MessageSquarePlus,
+  ExternalLink,
+  LogOut,
+  ChevronUp,
+} from "lucide-react"
 
 import { cn } from "cn"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -11,6 +19,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { Separator } from "@/components/ui/separator"
+import { ThemeToggle } from "@/components/shared/console/theme-toggle"
+import { LanguageToggle } from "@/components/shared/console/language-toggle"
 
 export interface ProfileBarProps extends React.ComponentProps<"div"> {
   /** Called when a menu item is clicked, so a parent drawer can close on navigation. */
@@ -56,18 +67,18 @@ function ProfileBar({ className, onNavigate, ...props }: ProfileBarProps) {
             </AvatarFallback>
           </Avatar>
           <span className="flex-1 text-left">Profile</span>
-          <ChevronsUpDown className="size-4 shrink-0 text-muted-foreground" />
+          <ChevronUp className="size-4 shrink-0 text-muted-foreground" />
         </PopoverTrigger>
 
         <PopoverContent
           side="top"
-          align="start"
+          align="center"
           sideOffset={8}
-          className="w-56 gap-1 p-1"
+          className="w-[calc(15rem-2rem)] gap-1 p-1"
         >
           <a href="#settings/account" onClick={close} className={menuItemClass}>
-            <User className="size-4 shrink-0" />
-            Account
+            <Settings className="size-4 shrink-0" />
+            Settings
           </a>
           <a
             href="#settings/personalization"
@@ -77,6 +88,25 @@ function ProfileBar({ className, onNavigate, ...props }: ProfileBarProps) {
             <Palette className="size-4 shrink-0" />
             Personalization
           </a>
+          <a
+            href="https://tally.so/r/dW7g5V"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={close}
+            className={menuItemClass}
+          >
+            <MessageSquarePlus className="size-4 shrink-0" />
+            <span className="flex-1 text-left">Feedback</span>
+            <ExternalLink className="size-3.5 shrink-0 text-muted-foreground" />
+          </a>
+
+          <Separator className="my-1" />
+
+          <ThemeToggle />
+          <LanguageToggle />
+
+          <Separator className="my-1" />
+
           <button
             type="button"
             onClick={handleLogout}
