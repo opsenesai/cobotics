@@ -4,10 +4,18 @@ import { use, useState } from "react"
 
 import { Chat, type Message } from "@/components/pages/console/new"
 
-function createId() {
-  return typeof crypto !== "undefined" && "randomUUID" in crypto
-    ? crypto.randomUUID()
-    : Math.random().toString(36).slice(2)
+// UUID v4 (8-4-4-4-12 hex) used as message ids.
+function createUuid() {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return crypto.randomUUID()
+  }
+  return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) => {
+    const n = Number(c)
+    return (
+      n ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (n / 4)))
+    ).toString(16)
+  })
 }
 
 export default function ChatDetailPage({
@@ -32,7 +40,7 @@ export default function ChatDetailPage({
     if (!trimmed) return
 
     const userMessage: Message = {
-      id: createId(),
+      id: createUuid(),
       role: "user",
       content: trimmed,
       createdAt: new Date(),
@@ -45,7 +53,7 @@ export default function ChatDetailPage({
     // Placeholder assistant echo until the backend chat API is wired up.
     window.setTimeout(() => {
       const assistantMessage: Message = {
-        id: createId(),
+        id: createUuid(),
         role: "assistant",
         content: `The chat backend isn't connected yet, so this is a placeholder response for chat ${chatId}.`,
         createdAt: new Date(),
