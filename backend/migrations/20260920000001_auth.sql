@@ -80,7 +80,9 @@ begin
   base := left(base, 24);
 
   loop
-    candidate := base || '_' || substr(encode(gen_random_bytes(3), 'hex'), 1, 4);
+    -- gen_random_uuid() is always available; gen_random_bytes() lives in the
+    -- extensions schema and isn't on this function's search_path.
+    candidate := base || '_' || substr(replace(gen_random_uuid()::text, '-', ''), 1, 4);
     exit when not exists (select 1 from public.users u where u.username = candidate);
   end loop;
 
