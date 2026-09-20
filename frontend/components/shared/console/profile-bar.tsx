@@ -65,9 +65,9 @@ function ProfileBar({ className, onNavigate, ...props }: ProfileBarProps) {
           sideOffset={8}
           className="w-56 gap-1 p-1"
         >
-          <a href="#settings/profile" onClick={close} className={menuItemClass}>
+          <a href="#settings/account" onClick={close} className={menuItemClass}>
             <User className="size-4 shrink-0" />
-            Profile
+            Account
           </a>
           <a
             href="#settings/personalization"

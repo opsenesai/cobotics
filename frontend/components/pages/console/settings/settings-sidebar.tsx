@@ -17,7 +17,7 @@ export interface SettingsSection {
 }
 
 export const settingsSections: SettingsSection[] = [
-  { id: "profile", title: "Profile", icon: User },
+  { id: "account", title: "Account", icon: User },
   { id: "usage", title: "Usage", icon: Gauge },
   { id: "personalization", title: "Personalization", icon: Palette },
   { id: "skills", title: "Skills", icon: Sparkles },

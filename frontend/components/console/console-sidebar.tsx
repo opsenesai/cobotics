@@ -28,7 +28,7 @@ const defaultNavItems: ConsoleNavItem[] = [
   { title: "Library", href: "/console/library", icon: Library },
   { title: "Plugins", href: "/console/plugins", icon: Puzzle },
   // Hash link: opens the settings dialog over the current console page.
-  { title: "Settings", href: "#settings/profile", icon: Settings },
+  { title: "Settings", href: "#settings/usage", icon: Settings },
 ]
 
 export interface ConsoleSidebarProps extends React.ComponentProps<"aside"> {

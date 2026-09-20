@@ -1,7 +1,0 @@
-export default function ProfilePage() {
-  return (
-    <p className="text-sm text-muted-foreground">
-      Your profile details will appear here.
-    </p>
-  )
-}
