@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
+import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -35,7 +36,6 @@ export default function LoginPage() {
     const formData = new FormData(event.currentTarget)
     const email = String(formData.get("email") ?? "").trim()
     const password = String(formData.get("password") ?? "")
-    const remember = formData.get("remember") != null
 
     if (!email || !password) {
       setError("Enter your email and password to continue.")
@@ -44,19 +44,19 @@ export default function LoginPage() {
 
     setIsSubmitting(true)
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, remember }),
+      const supabase = createClient()
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       })
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => null)
-        setError(data?.message ?? "Invalid email or password.")
+      if (signInError) {
+        setError(signInError.message ?? "Invalid email or password.")
         return
       }
 
       router.push("/console")
+      router.refresh()
     } catch {
       setError("Something went wrong. Please try again.")
     } finally {

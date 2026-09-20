@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
+import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -49,15 +50,17 @@ export default function SignupPage() {
 
     setIsSubmitting(true)
     try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+      const supabase = createClient()
+      const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: name },
+        },
       })
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => null)
-        setError(data?.message ?? "Could not create your account.")
+      if (signUpError) {
+        setError(signUpError.message ?? "Could not create your account.")
         return
       }
 

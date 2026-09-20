@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { ArrowLeft, Loader2, MailCheck } from "lucide-react"
 
+import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -39,15 +40,16 @@ export default function ForgotPasswordPage() {
 
     setIsSubmitting(true)
     try {
-      const res = await fetch("/api/auth/forgot", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      })
+      const supabase = createClient()
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo: `${window.location.origin}/auth/reset`,
+        }
+      )
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => null)
-        setError(data?.message ?? "Could not send the reset link.")
+      if (resetError) {
+        setError(resetError.message ?? "Could not send the reset link.")
         return
       }
 

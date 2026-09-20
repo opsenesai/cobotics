@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
+import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -38,6 +39,11 @@ function VerifyForm() {
     setError(null)
     setNotice(null)
 
+    if (!email) {
+      setError("Missing email address. Start from sign up again.")
+      return
+    }
+
     if (code.length !== OTP_LENGTH) {
       setError(`Enter the ${OTP_LENGTH}-digit code from your email.`)
       return
@@ -45,19 +51,22 @@ function VerifyForm() {
 
     setIsSubmitting(true)
     try {
-      const res = await fetch("/api/auth/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code }),
+      const supabase = createClient()
+      const { error: verifyError } = await supabase.auth.verifyOtp({
+        email,
+        token: code,
+        type: "signup",
       })
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => null)
-        setError(data?.message ?? "That code is incorrect or has expired.")
+      if (verifyError) {
+        setError(
+          verifyError.message ?? "That code is incorrect or has expired."
+        )
         return
       }
 
       router.push("/console")
+      router.refresh()
     } catch {
       setError("Something went wrong. Please try again.")
     } finally {
@@ -68,17 +77,22 @@ function VerifyForm() {
   async function handleResend() {
     setError(null)
     setNotice(null)
+
+    if (!email) {
+      setError("Missing email address. Start from sign up again.")
+      return
+    }
+
     setIsResending(true)
     try {
-      const res = await fetch("/api/auth/verify/resend", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+      const supabase = createClient()
+      const { error: resendError } = await supabase.auth.resend({
+        type: "signup",
+        email,
       })
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => null)
-        setError(data?.message ?? "Could not resend the code.")
+      if (resendError) {
+        setError(resendError.message ?? "Could not resend the code.")
         return
       }
 

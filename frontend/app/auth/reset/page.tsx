@@ -2,9 +2,10 @@
 
 import { Suspense, useState } from "react"
 import Link from "next/link"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
+import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -24,8 +25,6 @@ import {
 
 function ResetPasswordForm() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const token = searchParams.get("token")
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -33,11 +32,6 @@ function ResetPasswordForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError(null)
-
-    if (!token) {
-      setError("This reset link is invalid or has expired.")
-      return
-    }
 
     const formData = new FormData(event.currentTarget)
     const password = String(formData.get("password") ?? "")
@@ -55,15 +49,14 @@ function ResetPasswordForm() {
 
     setIsSubmitting(true)
     try {
-      const res = await fetch("/api/auth/reset", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, password }),
+      // The recovery link establishes a session; update the password on it.
+      const supabase = createClient()
+      const { error: updateError } = await supabase.auth.updateUser({
+        password,
       })
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => null)
-        setError(data?.message ?? "Could not reset your password.")
+      if (updateError) {
+        setError(updateError.message ?? "Could not reset your password.")
         return
       }
 
