@@ -1,7 +1,5 @@
+import { Skills } from "@/components/pages/console/settings/skills"
+
 export default function SkillsPage() {
-  return (
-    <p className="text-sm text-muted-foreground">
-      Skills will appear here.
-    </p>
-  )
+  return <Skills />
 }

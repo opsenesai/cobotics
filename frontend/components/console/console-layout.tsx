@@ -9,6 +9,7 @@ import {
   settingsSections,
 } from "@/components/pages/console/settings"
 import { Profile } from "@/components/pages/console/settings/account"
+import { Skills } from "@/components/pages/console/settings/skills"
 
 const SETTINGS_HASH_PREFIX = "#settings/"
 
@@ -89,15 +90,15 @@ function ConsoleLayout({
         }}
         section={settingsSection ?? undefined}
         onSectionChange={openSettings}
-        renderSection={(section) =>
-          section.id === "account" ? (
-            <Profile />
-          ) : (
+        renderSection={(section) => {
+          if (section.id === "account") return <Profile />
+          if (section.id === "skills") return <Skills />
+          return (
             <p className="text-sm text-muted-foreground">
               {section.title} settings will appear here.
             </p>
           )
-        }
+        }}
       />
     </div>
   )
