@@ -1,8 +1,10 @@
 # Cobotics — Frontend
 
-The Cobotics web application: a [Next.js](https://nextjs.org) 16 App Router
-project (React 19, TypeScript, Tailwind CSS v4) that talks to Supabase for
-authentication, data, and storage.
+The web console for **Cobotics** — an open source Physical AI operations
+intelligence platform that coordinates humans, robots, and AI agents to
+understand, plan, execute, and optimize physical-world work. Built with
+[Next.js](https://nextjs.org) 16 (App Router), React 19, TypeScript, and
+Tailwind CSS v4, backed by Supabase.
 
 - Live app: <https://cobotics.vercel.app>
 - Part of the [Cobotics monorepo](https://github.com/opsenesai/cobotics)

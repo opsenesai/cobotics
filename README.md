@@ -1,10 +1,14 @@
 # Cobotics
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-Open-source monorepo for **Cobotics** — a Next.js web console backed by
-Supabase (Auth, Database, Storage).
+**Cobotics by Opsenes** is an open source Physical AI operations intelligence
+platform that coordinates humans, robots, and AI agents to understand, plan,
+execute, and optimize physical-world work.
+
+This is the monorepo for the Cobotics web console and its Supabase backend
+(Auth, Database, Storage).
 
 - Live app: <https://cobotics.vercel.app>
 - Repository: <https://github.com/opsenesai/cobotics>
@@ -106,7 +110,7 @@ and our [Code of Conduct](CODE_OF_CONDUCT.md) before getting started.
 
 ## License
 
-Licensed under the [MIT License](LICENSE).
+Licensed under the [Apache License 2.0](LICENSE).
 
 ---
 

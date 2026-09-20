@@ -6,7 +6,8 @@ server process — the API surface is Supabase's auto-generated REST/client APIs
 (consumed from [`../frontend`](../frontend)) plus Edge Functions for custom
 server-side logic.
 
-Part of the [Cobotics monorepo](https://github.com/opsenesai/cobotics).
+Part of the [Cobotics monorepo](https://github.com/opsenesai/cobotics) —
+Opsenes' open source Physical AI operations intelligence platform.
 
 ## Structure
 

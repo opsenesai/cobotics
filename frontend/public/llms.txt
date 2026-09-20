@@ -1,8 +1,9 @@
 # Cobotics
 
-> Cobotics is an AI web console by Opsenes for chat, a skills library, plugins,
-> and a personal knowledge base. Built with Next.js and Supabase (Auth,
-> Database, Storage).
+> Cobotics by Opsenes is an open source Physical AI operations intelligence
+> platform that coordinates humans, robots, and AI agents to understand, plan,
+> execute, and optimize physical-world work. Built with Next.js and Supabase
+> (Auth, Database, Storage).
 
 - App: https://cobotics.vercel.app
 - Source: https://github.com/opsenesai/cobotics
