@@ -1,0 +1,15 @@
+# Environment — keep the example, ignore everything else
+.env
+.env.*
+!.env.example
+
+# Supabase CLI local artifacts
+.branches/
+.temp/
+
+# Logs
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
