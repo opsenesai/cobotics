@@ -1,35 +1,56 @@
 -- 20260920000002_database.sql
 -- Row-level security so a user can only ever read or write their own data.
--- Isolation key: auth.uid() = profiles.user_id.
+-- Isolation key: auth.uid() = users.user_id. Each user sees only their org.
 
-alter table public.profiles enable row level security;
+alter table public.users enable row level security;
+alter table public.orgs enable row level security;
 
--- Read own profile (fetch by user_id) --------------------------------------
-drop policy if exists "profiles_select_own" on public.profiles;
-create policy "profiles_select_own"
-  on public.profiles
-  for select
+-- users: owner-only (fetch by user_id) ------------------------------------
+drop policy if exists "users_select_own" on public.users;
+create policy "users_select_own"
+  on public.users for select
   using (auth.uid() = user_id);
 
--- Insert own profile (the signup trigger runs as definer; this covers
--- any client-side insert for the authenticated user only) -----------------
-drop policy if exists "profiles_insert_own" on public.profiles;
-create policy "profiles_insert_own"
-  on public.profiles
-  for insert
+drop policy if exists "users_insert_own" on public.users;
+create policy "users_insert_own"
+  on public.users for insert
   with check (auth.uid() = user_id);
 
--- Update own profile. user_id and org_id are immutable; only mutable
--- fields (e.g. username) may change. ---------------------------------------
-drop policy if exists "profiles_update_own" on public.profiles;
-create policy "profiles_update_own"
-  on public.profiles
-  for update
+drop policy if exists "users_update_own" on public.users;
+create policy "users_update_own"
+  on public.users for update
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
--- Prevent changing the identity columns via a guard trigger ----------------
-create or replace function public.profiles_lock_identity()
+-- orgs: a user can access only the org they belong to ----------------------
+drop policy if exists "orgs_select_member" on public.orgs;
+create policy "orgs_select_member"
+  on public.orgs for select
+  using (
+    exists (
+      select 1 from public.users u
+      where u.org_id = orgs.id and u.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "orgs_update_member" on public.orgs;
+create policy "orgs_update_member"
+  on public.orgs for update
+  using (
+    exists (
+      select 1 from public.users u
+      where u.org_id = orgs.id and u.user_id = auth.uid()
+    )
+  )
+  with check (
+    exists (
+      select 1 from public.users u
+      where u.org_id = orgs.id and u.user_id = auth.uid()
+    )
+  );
+
+-- Keep identity columns immutable on users --------------------------------
+create or replace function public.users_lock_identity()
 returns trigger
 language plpgsql
 as $$
@@ -44,8 +65,7 @@ begin
 end;
 $$;
 
-drop trigger if exists profiles_lock_identity on public.profiles;
-create trigger profiles_lock_identity
-  before update on public.profiles
-  for each row
-  execute function public.profiles_lock_identity();
+drop trigger if exists users_lock_identity on public.users;
+create trigger users_lock_identity
+  before update on public.users
+  for each row execute function public.users_lock_identity();

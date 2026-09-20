@@ -19,7 +19,7 @@ Deno.serve(async (req: Request) => {
   // GET: return the caller's profile.
   if (req.method === "GET") {
     const { data, error } = await supabase
-      .from("profiles")
+      .from("users")
       .select("user_id, org_id, username, email, full_name, avatar_url")
       .eq("user_id", user.id)
       .single()
@@ -43,7 +43,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const { data, error } = await supabase
-      .from("profiles")
+      .from("users")
       .update({ username })
       .eq("user_id", user.id)
       .select("user_id, org_id, username")
