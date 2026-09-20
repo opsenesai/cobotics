@@ -1,4 +1,5 @@
 // Shared Supabase client helpers for Edge Functions.
+// Shared Supabase client helpers for Edge Functions.
 import { createClient, type SupabaseClient } from "jsr:@supabase/supabase-js@2"
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!

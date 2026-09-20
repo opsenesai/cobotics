@@ -1,4 +1,5 @@
 // Edge Function: skills
+// Edge Function: skills
 // Per-user skill preferences. RLS-scoped to the caller.
 //
 //   GET    /skills               -> list the caller's skill prefs
