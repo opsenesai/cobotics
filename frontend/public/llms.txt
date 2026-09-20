@@ -1,0 +1,29 @@
+# Cobotics
+
+> Cobotics is an AI web console by Opsenes for chat, a skills library, plugins,
+> and a personal knowledge base. Built with Next.js and Supabase (Auth,
+> Database, Storage).
+
+- App: https://cobotics.vercel.app
+- Source: https://github.com/opsenesai/cobotics
+- Maintained by Opsenes (https://github.com/opsenesai)
+
+## Product
+
+- [Skills](https://cobotics.vercel.app/skill.md): role-based skills — Data,
+  Engineering, Operations, Legal, Design.
+- Console: chat (`/console/new`), overview, recents, library, and plugins.
+- Settings: account, usage, personalization, skills, memory.
+
+## Docs
+
+- [README](https://github.com/opsenesai/cobotics/blob/main/README.md)
+- [Frontend](https://github.com/opsenesai/cobotics/blob/main/frontend/README.md)
+- [Backend](https://github.com/opsenesai/cobotics/blob/main/backend/README.md)
+- [Roadmap](https://github.com/opsenesai/cobotics/blob/main/ROADMAP.md)
+- [Changelog](https://github.com/opsenesai/cobotics/blob/main/CHANGELOG.md)
+
+## Contact
+
+- General: hello@opsenes.in
+- Security: security@opsenes.in
