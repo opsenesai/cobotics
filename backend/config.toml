@@ -28,12 +28,19 @@ port = 54324
 enabled = true
 file_size_limit = "50MiB"
 
+# NOTE: [auth] here applies to LOCAL dev (supabase start). For the hosted
+# project, set Site URL and Redirect URLs in the dashboard:
+#   Authentication > URL Configuration
+#     Site URL:      https://cobotics.vercel.app
+#     Redirect URLs: https://cobotics.vercel.app/**, http://localhost:3000/**
 [auth]
 enabled = true
 site_url = "http://localhost:3000"
 additional_redirect_urls = [
   "http://localhost:3000/auth/verify",
   "http://localhost:3000/auth/reset",
+  "https://cobotics.vercel.app/auth/verify",
+  "https://cobotics.vercel.app/auth/reset",
 ]
 jwt_expiry = 3600
 enable_signup = true
