@@ -33,6 +33,7 @@ function ConsoleLayout({
   ...props
 }: ConsoleLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [settingsSection, setSettingsSection] = useState<string | null>(null)
 
   // Sync the settings dialog with the URL hash (e.g. #settings/profile).
@@ -72,6 +73,8 @@ function ConsoleLayout({
 
       <ConsoleSidebar
         open={sidebarOpen}
+        collapsed={sidebarCollapsed}
+        onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
         onNavigate={() => setSidebarOpen(false)}
       />
 

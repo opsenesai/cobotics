@@ -31,6 +31,8 @@ import { LanguageToggle } from "@/components/shared/console/language-toggle"
 export interface ProfileBarProps extends React.ComponentProps<"div"> {
   /** Called when a menu item is clicked, so a parent drawer can close on navigation. */
   onNavigate?: () => void
+  /** Icon-only mode for a collapsed sidebar. */
+  collapsed?: boolean
 }
 
 const menuItemClass = cn(
@@ -49,7 +51,12 @@ function initials(name: string): string {
   return source.slice(0, 2).toUpperCase()
 }
 
-function ProfileBar({ className, onNavigate, ...props }: ProfileBarProps) {
+function ProfileBar({
+  className,
+  onNavigate,
+  collapsed = false,
+  ...props
+}: ProfileBarProps) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [displayName, setDisplayName] = useState("Profile")
@@ -101,8 +108,11 @@ function ProfileBar({ className, onNavigate, ...props }: ProfileBarProps) {
     >
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger
+          aria-label={collapsed ? displayName : undefined}
+          title={collapsed ? displayName : undefined}
           className={cn(
-            "flex h-14 w-full items-center gap-2.5 px-4 text-sm font-medium transition-colors outline-none",
+            "flex h-14 w-full items-center gap-2.5 text-sm font-medium transition-colors outline-none",
+            collapsed ? "justify-center px-0" : "px-4",
             "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
             "data-[popup-open]:bg-sidebar-accent data-[popup-open]:text-sidebar-accent-foreground"
           )}
@@ -115,8 +125,12 @@ function ProfileBar({ className, onNavigate, ...props }: ProfileBarProps) {
               {initials(displayName) || <User className="size-3.5" />}
             </AvatarFallback>
           </Avatar>
-          <span className="flex-1 truncate text-left">{displayName}</span>
-          <ChevronUp className="size-4 shrink-0 text-muted-foreground" />
+          {!collapsed && (
+            <>
+              <span className="flex-1 truncate text-left">{displayName}</span>
+              <ChevronUp className="size-4 shrink-0 text-muted-foreground" />
+            </>
+          )}
         </PopoverTrigger>
 
         <PopoverContent
