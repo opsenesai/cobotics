@@ -6,12 +6,12 @@ import { ArrowUp, Info, Loader2, Mic, Paperclip, Square, X } from "lucide-react"
 import { omit } from "remeda"
 
 import { cn } from "@/lib/utils"
-import { useAudioRecording } from "@/components/hooks/use-audio-recording"
-import { useAutosizeTextArea } from "@/components/hooks/use-autosize-textarea"
-import { AudioVisualizer } from "@/components/ui/audio-visualizer"
+import { useAudioRecording } from "../hooks/use-audio-recording"
+import { useAutosizeTextArea } from "../hooks/use-autosize-textarea"
+import { AudioVisualizer } from "./audio-visualizer"
 import { Button } from "@/components/ui/button"
-import { FilePreview } from "@/components/ui/file-preview"
-import { InterruptPrompt } from "@/components/ui/interrupt-prompt"
+import { FilePreview } from "./file-preview"
+import { InterruptPrompt } from "./interrupt-prompt"
 
 interface MessageInputBaseProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {

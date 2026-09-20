@@ -10,13 +10,13 @@ import {
 import { ArrowDown, ThumbsDown, ThumbsUp } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { useAutoScroll } from "@/components/hooks/use-auto-scroll"
+import { useAutoScroll } from "../hooks/use-auto-scroll"
 import { Button } from "@/components/ui/button"
-import { type Message } from "@/components/ui/chat-message"
-import { CopyButton } from "@/components/ui/copy-button"
-import { MessageInput } from "@/components/ui/message-input"
-import { MessageList } from "@/components/ui/message-list"
-import { PromptSuggestions } from "@/components/ui/prompt-suggestions"
+import { type Message } from "./chat-message"
+import { CopyButton } from "./copy-button"
+import { MessageInput } from "./message-input"
+import { MessageList } from "./message-list"
+import { PromptSuggestions } from "./prompt-suggestions"
 
 interface ChatPropsBase {
   handleSubmit: (

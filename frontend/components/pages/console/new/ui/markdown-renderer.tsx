@@ -1,9 +1,9 @@
 import React, { Suspense } from "react"
-import Markdown from "react-markdown"
+import Markdown, { type Components } from "react-markdown"
 import remarkGfm from "remark-gfm"
 
 import { cn } from "@/lib/utils"
-import { CopyButton } from "@/components/ui/copy-button"
+import { CopyButton } from "./copy-button"
 
 interface MarkdownRendererProps {
   children: string
@@ -45,8 +45,8 @@ const HighlightedPre = React.memo(
       <pre {...props}>
         <code>
           {tokens.map((line, lineIndex) => (
-            <>
-              <span key={lineIndex}>
+            <React.Fragment key={lineIndex}>
+              <span>
                 {line.map((token, tokenIndex) => {
                   const style =
                     typeof token.htmlStyle === "string"
@@ -65,7 +65,7 @@ const HighlightedPre = React.memo(
                 })}
               </span>
               {lineIndex !== tokens.length - 1 && "\n"}
-            </>
+            </React.Fragment>
           ))}
         </code>
       </pre>
@@ -137,7 +137,7 @@ function childrenTakeAllStringContents(element: any): string {
   return ""
 }
 
-const COMPONENTS = {
+const COMPONENTS: Components = {
   h1: withClass("h1", "text-2xl font-semibold"),
   h2: withClass("h2", "font-semibold text-xl"),
   h3: withClass("h3", "font-semibold text-lg"),
@@ -184,11 +184,11 @@ const COMPONENTS = {
   hr: withClass("hr", "border-foreground/20"),
 }
 
-function withClass(Tag: keyof JSX.IntrinsicElements, classes: string) {
+function withClass(Tag: keyof React.JSX.IntrinsicElements, classes: string) {
   const Component = ({ node, ...props }: any) => (
     <Tag className={classes} {...props} />
   )
-  Component.displayName = Tag
+  Component.displayName = String(Tag)
   return Component
 }
 

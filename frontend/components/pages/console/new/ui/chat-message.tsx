@@ -11,8 +11,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { FilePreview } from "@/components/ui/file-preview"
-import { MarkdownRenderer } from "@/components/ui/markdown-renderer"
+import { FilePreview } from "./file-preview"
+import { MarkdownRenderer } from "./markdown-renderer"
 
 const chatBubbleVariants = cva(
   "group/message relative break-words rounded-lg p-3 text-sm sm:max-w-[70%]",
@@ -292,14 +292,12 @@ const ReasoningBlock = ({ part }: { part: ReasoningPart }) => {
         className="group w-full overflow-hidden rounded-lg border bg-muted/50"
       >
         <div className="flex items-center p-2">
-          <CollapsibleTrigger asChild>
-            <button className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-              <ChevronRight className="h-4 w-4 transition-transform group-data-[state=open]:rotate-90" />
-              <span>Thinking</span>
-            </button>
+          <CollapsibleTrigger className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+            <ChevronRight className="h-4 w-4 transition-transform group-data-[state=open]:rotate-90" />
+            <span>Thinking</span>
           </CollapsibleTrigger>
         </div>
-        <CollapsibleContent forceMount>
+        <CollapsibleContent keepMounted>
           <motion.div
             initial={false}
             animate={isOpen ? "open" : "closed"}
