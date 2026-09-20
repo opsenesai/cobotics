@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
 import { createClient } from "@/lib/supabase/client"
@@ -24,8 +24,10 @@ import {
   FieldError,
 } from "@/components/ui/field"
 
-export default function SignupPage() {
+function SignupForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const prefilledEmail = searchParams.get("email") ?? ""
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -103,6 +105,7 @@ export default function SignupPage() {
                 type="email"
                 autoComplete="email"
                 placeholder="you@example.com"
+                defaultValue={prefilledEmail}
                 required
               />
             </Field>
@@ -145,5 +148,21 @@ export default function SignupPage() {
         </Link>
       </div>
     </Card>
+  )
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense
+      fallback={
+        <Card>
+          <CardContent className="flex items-center justify-center py-10">
+            <Loader2 className="size-5 animate-spin text-muted-foreground" />
+          </CardContent>
+        </Card>
+      }
+    >
+      <SignupForm />
+    </Suspense>
   )
 }
