@@ -53,3 +53,12 @@ and the expected vs. actual behavior.
 ## Code of Conduct
 
 By participating, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Contact
+
+Questions? Reach the maintainers at <hello@opsenes.in> or open a discussion on
+GitHub.
+
+---
+
+Cobotics by [Opsenes](https://github.com/opsenesai).

@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cobotics — Frontend
+
+The Cobotics web application: a [Next.js](https://nextjs.org) 16 App Router
+project (React 19, TypeScript, Tailwind CSS v4) that talks to Supabase for
+authentication, data, and storage.
+
+- Live app: <https://cobotics.vercel.app>
+- Part of the [Cobotics monorepo](https://github.com/opsenesai/cobotics)
+
+## Tech Stack
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **Tailwind CSS v4** with shadcn / [Base UI](https://base-ui.com) components
+- **Supabase** via `@supabase/ssr` and `@supabase/supabase-js`
+- `framer-motion`, `react-markdown`, `shiki`, `sonner`, `lucide-react`
 
 ## Getting Started
 
-First, run the development server:
+1. Copy the environment template and fill in your Supabase values:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+   ```
+
+2. Install dependencies and start the dev server:
+
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+   Open <http://localhost:3000>.
+
+## Scripts
+
+| Script          | Description                     |
+| --------------- | ------------------------------- |
+| `npm run dev`   | Start the development server    |
+| `npm run build` | Production build                |
+| `npm run start` | Serve the production build      |
+| `npm run lint`  | Run ESLint                      |
+
+## Project Structure
+
+```
+frontend/
+├── app/                          # App Router
+│   ├── auth/
+│   │   ├── login/                # sign in
+│   │   ├── signup/               # create account
+│   │   ├── verify/               # email OTP verification
+│   │   ├── forgot/               # request password reset
+│   │   ├── reset/                # set a new password
+│   │   ├── confirm/route.ts      # recovery/email link handler
+│   │   └── layout.tsx
+│   ├── console/                  # authenticated product area
+│   │   ├── new/                  # new chat
+│   │   │   └── [chatId]/         # a specific chat
+│   │   ├── overview/
+│   │   ├── recents/
+│   │   ├── library/[assetId]/
+│   │   ├── plugins/[connectorId]/
+│   │   └── settings/             # account, usage, personalization, skills, memory
+│   ├── legal/                    # privacy, terms, cookies
+│   ├── layout.tsx
+│   └── page.tsx                  # redirects to /auth/login
+├── components/
+│   ├── app/                      # app shell (header, footer, layout)
+│   ├── console/                  # console shell (header, sidebar, layout)
+│   ├── pages/console/            # per-page components (new/chat, settings, ...)
+│   ├── shared/console/           # profile bar, theme/language toggles
+│   └── ui/                       # shadcn / Base UI primitives
+├── lib/
+│   ├── supabase/                 # browser + server clients, session proxy
+│   └── utils.ts
+├── proxy.ts                      # Next.js 16 proxy — refreshes the Supabase session
+├── public/                       # brand assets, icons
+├── next.config.ts
+├── tsconfig.json
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Authentication
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Auth is handled by Supabase. The auth pages call the Supabase browser client
+directly; `proxy.ts` (the Next.js 16 replacement for middleware) refreshes the
+session on each request and guards the console. Email verification uses a
+6-digit OTP; password recovery uses a link routed through `app/auth/confirm`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment
 
-## Learn More
+Deployed on [Vercel](https://vercel.com) at <https://cobotics.vercel.app>. Set
+`NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in the
+Vercel project environment.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Cobotics by [Opsenes](https://github.com/opsenesai).

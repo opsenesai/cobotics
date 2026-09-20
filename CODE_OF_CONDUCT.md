@@ -28,7 +28,7 @@ Examples of unacceptable behavior:
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the project maintainers via the
+reported to the project maintainers at <conduct@opsenes.in> or via the
 [Cobotics repository](https://github.com/opsenesai/cobotics). All complaints
 will be reviewed and investigated promptly and fairly.
 

@@ -14,11 +14,11 @@ receive fixes.
 If you discover a security vulnerability in Cobotics, please report it
 privately. **Do not open a public issue for security problems.**
 
-Preferred reporting channel:
+Preferred reporting channels:
 
 - Use GitHub's [private vulnerability reporting](https://github.com/opsenesai/cobotics/security/advisories/new)
   for this repository, or
-- Contact the maintainers privately with a description of the issue and steps
+- Email us at <security@opsenes.in> with a description of the issue and steps
   to reproduce.
 
 You will receive an acknowledgement within a reasonable timeframe. Please allow

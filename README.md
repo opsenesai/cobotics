@@ -3,16 +3,33 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-Open-source monorepo for the Cobotics project, containing the frontend and backend applications.
+Open-source monorepo for **Cobotics** — a Next.js web console backed by
+Supabase (Auth, Database, Storage).
 
-Repository: <https://github.com/opsenesai/cobotics>
+- Live app: <https://cobotics.vercel.app>
+- Repository: <https://github.com/opsenesai/cobotics>
+- Maintained by [Opsenes](https://github.com/opsenesai)
 
 ## Project Structure
 
 ```
 cobotics/
-├── frontend/    # Next.js web application
-├── backend/     # Backend service
+├── frontend/                 # Next.js web application
+│   ├── app/                  # App Router routes
+│   │   ├── auth/             # login, signup, verify, forgot, reset, confirm
+│   │   ├── console/          # authenticated product area
+│   │   │   ├── new/[chatId]/ # chat
+│   │   │   ├── overview/     # recents, library, plugins, settings, ...
+│   │   │   └── settings/     # account, usage, personalization, skills, memory
+│   │   └── legal/            # privacy, terms, cookies
+│   ├── components/           # UI, app shell, console shell, page components
+│   ├── lib/supabase/         # Supabase browser/server clients + session proxy
+│   ├── proxy.ts              # Next.js 16 proxy (session refresh)
+│   └── public/               # static assets (brand, icons)
+├── backend/                  # Supabase project (Auth + Database + Storage)
+│   ├── config.toml           # Supabase CLI configuration
+│   ├── migrations/           # SQL schema + RLS
+│   └── functions/            # Edge Functions (_shared, auth, chats)
 ├── README.md
 ├── LICENSE
 ├── SECURITY.md
@@ -24,12 +41,19 @@ cobotics/
 └── .gitignore
 ```
 
+## Tech Stack
+
+- **Frontend:** Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4,
+  shadcn / Base UI components.
+- **Backend:** Supabase — Postgres with row-level security, Auth, Storage, and
+  Edge Functions.
+
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (LTS recommended)
-- npm
+- Node.js (LTS recommended) and npm
+- A [Supabase](https://supabase.com) project (for Auth/Database/Storage)
 
 ### Setup
 
@@ -40,10 +64,16 @@ cobotics/
    cd cobotics
    ```
 
-2. Copy `.env.example` to `.env.local` and fill in the values:
+2. Configure environment variables. Copy `.env.example` to `.env.local` and
+   fill in your Supabase values:
 
    ```bash
    cp .env.example .env.local
+   ```
+
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
    ```
 
 3. Install and run the frontend:
@@ -54,6 +84,11 @@ cobotics/
    npm run dev
    ```
 
+   Open <http://localhost:3000>.
+
+4. (Optional) Apply the database schema with the [Supabase CLI](https://supabase.com/docs/guides/local-development)
+   from `backend/` (see [`backend/README.md`](backend/README.md)).
+
 ## Contributing
 
 Contributions are welcome! Please read the [Contributing Guide](CONTRIBUTING.md)
@@ -61,6 +96,8 @@ and our [Code of Conduct](CODE_OF_CONDUCT.md) before getting started.
 
 ## Documentation
 
+- [Frontend](frontend/README.md)
+- [Backend](backend/README.md)
 - [Contributing](CONTRIBUTING.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Security Policy](SECURITY.md)
@@ -69,4 +106,8 @@ and our [Code of Conduct](CODE_OF_CONDUCT.md) before getting started.
 
 ## License
 
-This project is licensed under the terms of the [MIT License](LICENSE).
+Licensed under the [MIT License](LICENSE).
+
+---
+
+Cobotics by [Opsenes](https://github.com/opsenesai).
